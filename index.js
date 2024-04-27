@@ -29,6 +29,13 @@ async function run() {
     const placeCollection = client.db('exploreAura').collection('places');
 
 
+    app.get("/touristPlace", async (req, res)=>{
+      const cursor = placeCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
     app.post("/touristPlace", async (req, res)=>{
       const newPlace = req.body;
       const result = await placeCollection.insertOne(newPlace);

@@ -50,6 +50,15 @@ async function run() {
 
     })
 
+    // for update
+    app.get("/touristPlace/:_id", async (req, res) => {
+      const _id = req.params._id;
+      console.log(_id)
+      const query = { _id: new ObjectId(_id) }
+      const result = await placeCollection.findOne(query);
+      res.send(result)
+    })
+
     app.delete("/touristPlace/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }

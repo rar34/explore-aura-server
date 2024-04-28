@@ -29,20 +29,26 @@ async function run() {
     const placeCollection = client.db('exploreAura').collection('places');
 
 
-    app.get("/touristPlace", async (req, res)=>{
+    app.get("/touristPlace", async (req, res) => {
       const cursor = placeCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
 
-    app.post("/touristPlace", async (req, res)=>{
+    app.post("/touristPlace", async (req, res) => {
       const newPlace = req.body;
       const result = await placeCollection.insertOne(newPlace);
       res.send(result);
       console.log(newPlace)
     })
 
+    app.get("/touristPlace/:email", async (req, res) => {
+      console.log(req.params.email)
+      const result = await placeCollection.find({email: req.params.email}).toArray();
+      res.send(result);
+
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -60,8 +66,8 @@ run().catch(console.dir);
 
 
 app.get("/", (req, res) => {
-    res.send("hello world")
+  res.send("hello world")
 })
 app.listen(port, () => {
-    console.log(`server is running on port: ${port}`)
+  console.log(`server is running on port: ${port}`)
 })

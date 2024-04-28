@@ -51,11 +51,34 @@ async function run() {
     })
 
     // for update
-    app.get("/touristPlace/:_id", async (req, res) => {
-      const _id = req.params._id;
-      console.log(_id)
-      const query = { _id: new ObjectId(_id) }
+    app.get("/touristPlaces/:idx", async (req, res) => {
+      const id = req.params.idx;
+      console.log(id)
+      const query = { _id: new ObjectId(id) }
       const result = await placeCollection.findOne(query);
+      res.send(result)
+    })
+
+    // updated field
+    app.put("/touristPlace/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updatedPLace = req.body;
+      const place = {
+        $set: {
+          tourists_spot_name: updatedPLace.tourists_spot_name,
+          country_name: updatedPLace.country_name,
+          location: updatedPLace.location,
+          image: updatedPLace.image,
+          seasonality: updatedPLace.seasonality,
+          averageCost: updatedPLace.averageCost,
+          travel_time: updatedPLace.travel_time,
+          totalVisitorsPerYear: updatedPLace.totalVisitorsPerYear,
+          short_description: updatedPLace.short_description
+        },
+      };
+      const result = await placeCollection.updateOne(filter, place, options);
       res.send(result)
     })
 

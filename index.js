@@ -27,6 +27,7 @@ async function run() {
     await client.connect();
 
     const placeCollection = client.db('exploreAura').collection('places');
+    const countryCollection = client.db('exploreAura').collection('country');
 
 
     app.get("/touristPlace", async (req, res) => {
@@ -35,6 +36,11 @@ async function run() {
       res.send(result);
     })
 
+    app.get("/country", async (req, res) => {
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray()
+      res.send(result)
+    })
 
     app.post("/touristPlace", async (req, res) => {
       const newPlace = req.body;

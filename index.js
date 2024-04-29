@@ -49,6 +49,7 @@ async function run() {
       console.log(newPlace)
     })
 
+    // get data using email
     app.get("/touristPlace/:email", async (req, res) => {
       console.log(req.params.email)
       const result = await placeCollection.find({ user_email: req.params.email }).toArray();
